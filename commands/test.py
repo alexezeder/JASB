@@ -3,26 +3,23 @@ from utilities.locks import Lock
 import datetime
 
 
-class ExampleCommand(BaseCommand):
-    command_name = "Example command"
-    command_keys = ["example", "command"]
+class TestCommand(BaseCommand):
+    command_name = "Test command"
+    command_keys = ["test", "command"]
 
     def __init__(self, arguments, user_id, channel_id):
         super().__init__(arguments, user_id, channel_id)
 
     def execute(self):
-        with Lock():
-            print("args: ", self.arguments)
-
         super()._add_action({
             "method": "chat.postMessage",
             "channel": self.channel_id,
-            "text": "result of example command"
+            "text": "result of test command"
         })
 
-        example_wait = datetime.timedelta(seconds=5)
+        test_wait = datetime.timedelta(seconds=10)
         super()._add_pending_action({
             "method": "chat.postMessage",
             "channel": self.channel_id,
-            "text": "pending result of example command"
-        }, datetime.datetime.now() + example_wait)
+            "text": "pending result of test command"
+        }, datetime.datetime.now() + test_wait)
